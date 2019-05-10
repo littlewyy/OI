@@ -2,7 +2,7 @@
 #include<cstdio>
 #include<cstring>
 #include<algorithm>
-//sbÁË£¬Á½¸öÍ¼£¬¸øcur/head/edge¿ªÁ½Î¬¼´¿É¡£ 
+//sbäº†ï¼Œä¸¤ä¸ªå›¾ï¼Œç»™cur/head/edgeå¼€ä¸¤ç»´å³å¯ã€‚ 
 using namespace std;
 long long typedef LL;
 const int MAXN = 2E4 + 5 , MAXM = 1E5 + 5;
@@ -219,11 +219,11 @@ void Q()
 		LL ans = 0;
 		if(Aft[x] != -1)	ans = max(ans,Pre[x] + Aft[x] - 2 * W[1][x] + (W[1][x] - W[0][i]));
 	//	printf("%lld ",ans);
-		ans = max(ans,AftMax[Id[x] + 1]);//ÍØÆËĞòÔÚºó 
+		ans = max(ans,AftMax[Id[x] + 1]);//æ‹“æ‰‘åºåœ¨å 
 	//	printf("%lld ",ans);
 		ans = max(ans,PreMax[Id[x] - 1]);
 	//	printf("%lld ",ans);
-		ans = max(ans,Query(1,1,g,Id[x]));//ÍØÆËĞòµÄµ¥µã²éÑ¯¡£ 
+		ans = max(ans,Query(1,1,g,Id[x]));//æ‹“æ‰‘åºçš„å•ç‚¹æŸ¥è¯¢ã€‚ 
 	//	printf("%lld\n",ans);
 		mina = min(mina,ans);
 	}
