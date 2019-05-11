@@ -9,7 +9,7 @@ const int MAXN = 2E4 + 5 , MAXM = 1E5 + 5;
 int n,m,t,Stop,dfn,g;
 int Head[3][MAXN],T[2][MAXN],Stack[MAXN],Cur[3],Flag[MAXN];
 int Dfn[MAXN],Low[MAXN],Degree[MAXN],Top[MAXN],Id[MAXN],Belong[MAXN];
-LL W[2][MAXN],Pre[MAXN],Aft[MAXN],Maxa[MAXN],PreMax[MAXN],AftMax[MAXN];
+LL W[2][MAXN],Pre[MAXN],Aft[MAXN],Maxa[4 * MAXN],PreMax[MAXN],AftMax[MAXN];
 bool Instack[MAXN];
 struct wyy
 {
@@ -59,6 +59,7 @@ void Tarjan(int x)
 {
 	Dfn[x] = Low[x] = ++ dfn;
 	Instack[x] = true , Stack[++ Stop] = x;
+	//printf("%d ",x);
 	
 	for(int h = Head[0][x] ; h != -1 ; h = Edge[0][h].next)
 	{
@@ -74,15 +75,18 @@ void Tarjan(int x)
 	if(Dfn[x] == Low[x])
 	{
 		g ++;
-		while(Low[Stack[Stop]] == Low[x])
+		//缩点错了。不是Low[node]==Low[x]，而是node != x
+		//重新研究缩点！  
+		int node;
+		do
 		{
-			int node = Stack[Stop --];
-			Add(1,g,node);
-			Belong[node] = g;
+			node = Stack[Stop --]; 
 			Instack[node] = false;
+			Add(1,g,node);
 			W[1][g] += W[0][node];
 			if(T[0][node])	T[1][g] = 1;
-		}
+			Belong[node] = g;
+		}while(node != x);
 	}
 }
 void Build()
@@ -111,7 +115,6 @@ void Build()
 } 
 void getTop()
 {
-//	for(int i = 1 ; i <= g ; i ++)	printf("%d ",T[1][i]);
 	int head,tail;
 	head = 1 , tail = 0;
 	for(int i = 1 ; i <= g ; i ++)	if(!Degree[i])	Top[++ tail] = i , Id[i] = tail;
@@ -125,8 +128,6 @@ void getTop()
 			if(!Degree[y])	Top[++ tail] = y , Id[y] = tail;
 		}
 	}
-	//for(int i = 1 ; i <= g ; i ++)	printf("%d ",Top[i]);
-	//printf("\n");
 }
 void getAftPre()
 {
@@ -134,7 +135,6 @@ void getAftPre()
 	{
 		int x = Top[i];
 		if(T[1][x])	Aft[x] = W[1][x];	else	Aft[x] = -1;
-		//printf("%d %lld\n",x,Aft[x]);
 		for(int h = Head[2][x] ; h != -1 ; h = Edge[2][h].next)
 		{
 			int y = Edge[2][h].to;
@@ -151,16 +151,21 @@ void getAftPre()
 			Pre[y] = max(Pre[y],Pre[x] + W[1][y]);
 		}
 	}
-	//for(int i = 1 ; i <= g ; i ++)	printf("%lld ",Aft[i]);
-//	printf("\n");
 } 
 void getMax()
 {
+	//PreMax[i]:拓扑序在i及以前的且可为终点的Pre最大值。 
+	PreMax[0] = -1;
 	for(int i = 1 ; i <= g ; i ++)
 	{
 		int x = Top[i];
-		PreMax[i] = max(PreMax[i - 1],Pre[x]);
+		//注意限制条件： 终点必为可取点 
+		//if(T[x][1])	PreMax[i] = max(PreMax[i - 1],Pre[x]);
+		//前缀相关格式:先等于前1个，再跟当前答案比对。
+		PreMax[i] = PreMax[i - 1];
+		if(T[x][1])	 PreMax[i] = max(PreMax[i],Pre[x]);
 	}
+    //AftMax[i]:拓扑序在i及以后的Aft最大值。 
 	AftMax[g + 1] = -1;
 	for(int i = g ; i >= 1 ; i --)
 	{
@@ -207,29 +212,45 @@ LL Query(int x,int l,int r,int d)
 }
 void Q()
 {
-	//for(int i = 1 ; i <= n ; i ++)	printf("%d %d\n",i,Belong[i]);
-//	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",W[1][i]);
-//	printf("\n");
-//	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",Aft[i]);
-//	printf("\n");
 	LL mina = 1ll << 60;
 	for(int i = 1 ; i <= n ; i ++)
 	{
 		int x = Belong[i];
-		LL ans = 0;
-		if(Aft[x] != -1)	ans = max(ans,Pre[x] + Aft[x] - 2 * W[1][x] + (W[1][x] - W[0][i]));
-	//	printf("%lld ",ans);
+		LL ans = -1;
+		if(Aft[x] != -1)	ans = max(ans,Pre[x] + Aft[x] - 2 * W[1][x] + (W[1][x] - W[0][i]));	
+		//printf("%lld ",ans);
 		ans = max(ans,AftMax[Id[x] + 1]);//拓扑序在后 
-	//	printf("%lld ",ans);
+		//printf("%lld ",AftMax[Id[x] + 1]);
 		ans = max(ans,PreMax[Id[x] - 1]);
-	//	printf("%lld ",ans);
-		ans = max(ans,Query(1,1,g,Id[x]));//拓扑序的单点查询。 
-	//	printf("%lld\n",ans);
+		//printf("%lld ",PreMax[Id[x] - 1]);
+		ans = max(ans,Query(1,1,g,Id[x]));//拓扑序的单点查询。
+	//	printf("%lld ",Query(1,1,g,Id[x]));
+		//printf("%lld \n",ans);
 		mina = min(mina,ans);
 	}
-	//printf("\n");
 	printf("%lld\n",mina);
 }
+void Debug()
+{
+/*	for(int i = 1 ; i <= g ; i ++)
+	{
+		for(int h = Head[2][i] ; h != -1 ; h = Edge[2][h].next)
+		{
+			int y = Edge[2][h].to;
+			printf("%d %d\n",i,y);
+		}
+	}*/
+	//for(int i = 1 ; i <= n ; i ++)	printf("%d\n",Belong[i]);
+//	for(int i = 1 ; i <= g ; i ++)	printf("%d ",Top[i]);
+//	for(int i = 1 ; i <= g ; i ++)	printf("%d ",Id[i]);
+//	printf("\n");
+	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",W[1][i]);
+	printf("\n");
+	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",Pre[i]);
+	printf("\n");
+	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",PreMax[i]);
+	printf("\n");
+}	
 int main()
 {
 	freopen("map.in","r",stdin);
@@ -243,8 +264,9 @@ int main()
 		Build();
 		getTop();
 		getAftPre();
-		getMax();
 		getMatch();
+		getMax();
+		//Debug();
 		Q();
 	}
 	return 0;
