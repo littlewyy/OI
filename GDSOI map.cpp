@@ -5,7 +5,7 @@
 //sb了，两个图，给cur/head/edge开两维即可。 
 using namespace std;
 long long typedef LL;
-const int MAXN = 2E4 + 5 , MAXM = 1E5 + 5;
+const int MAXN = 5E4 + 5 , MAXM = 1E5 + 5;
 int n,m,t,Stop,dfn,g;
 int Head[3][MAXN],T[2][MAXN],Stack[MAXN],Cur[3],Flag[MAXN];
 int Dfn[MAXN],Low[MAXN],Degree[MAXN],Top[MAXN],Id[MAXN],Belong[MAXN];
@@ -25,6 +25,7 @@ void Init()
 	memset(Dfn,0,sizeof(Dfn));
 	memset(Instack,0,sizeof(Instack));
 	memset(Flag,0,sizeof(Flag));
+	memset(Maxa,0,sizeof(Maxa));//多测不清空，爆零见祖宗。具体：看代码清1次，对着上面的数组再检查。 
 	memset(Degree,0,sizeof(Degree));
 }
 int read()
@@ -161,9 +162,9 @@ void getMax()
 		int x = Top[i];
 		//注意限制条件： 终点必为可取点 
 		//if(T[x][1])	PreMax[i] = max(PreMax[i - 1],Pre[x]);
-		//前缀相关格式:先等于前1个，再跟当前答案比对。
+		//前缀相关格式:先等于前1个，再跟当前答案比对。不然极易出错。 
 		PreMax[i] = PreMax[i - 1];
-		if(T[x][1])	 PreMax[i] = max(PreMax[i],Pre[x]);
+		if(T[1][x])	 PreMax[i] = max(PreMax[i],Pre[x]);
 	}
     //AftMax[i]:拓扑序在i及以后的Aft最大值。 
 	AftMax[g + 1] = -1;
@@ -218,43 +219,18 @@ void Q()
 		int x = Belong[i];
 		LL ans = -1;
 		if(Aft[x] != -1)	ans = max(ans,Pre[x] + Aft[x] - 2 * W[1][x] + (W[1][x] - W[0][i]));	
-		//printf("%lld ",ans);
 		ans = max(ans,AftMax[Id[x] + 1]);//拓扑序在后 
-		//printf("%lld ",AftMax[Id[x] + 1]);
-		ans = max(ans,PreMax[Id[x] - 1]);
-		//printf("%lld ",PreMax[Id[x] - 1]);
+		ans = max(ans,PreMax[Id[x] - 1]);	
 		ans = max(ans,Query(1,1,g,Id[x]));//拓扑序的单点查询。
-	//	printf("%lld ",Query(1,1,g,Id[x]));
-		//printf("%lld \n",ans);
 		mina = min(mina,ans);
 	}
 	printf("%lld\n",mina);
 }
-void Debug()
-{
-/*	for(int i = 1 ; i <= g ; i ++)
-	{
-		for(int h = Head[2][i] ; h != -1 ; h = Edge[2][h].next)
-		{
-			int y = Edge[2][h].to;
-			printf("%d %d\n",i,y);
-		}
-	}*/
-	//for(int i = 1 ; i <= n ; i ++)	printf("%d\n",Belong[i]);
-//	for(int i = 1 ; i <= g ; i ++)	printf("%d ",Top[i]);
-//	for(int i = 1 ; i <= g ; i ++)	printf("%d ",Id[i]);
-//	printf("\n");
-	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",W[1][i]);
-	printf("\n");
-	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",Pre[i]);
-	printf("\n");
-	for(int i = 1 ; i <= g ; i ++)	printf("%lld ",PreMax[i]);
-	printf("\n");
-}	
 int main()
 {
 	freopen("map.in","r",stdin);
-	freopen("map.out","w",stdout);
+	//freopen("map wa.out","w",stdout);
+	freopen("map.out","w",stdout); 
 	scanf("%d",&t);
 	while(t --)
 	{
@@ -266,7 +242,6 @@ int main()
 		getAftPre();
 		getMatch();
 		getMax();
-		//Debug();
 		Q();
 	}
 	return 0;
