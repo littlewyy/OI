@@ -32,7 +32,7 @@ void Read()
 		Add(x,y);
 	}
 }
-//BFSÄ£Äâ»ØËİ
+//BFSæ¨¡æ‹Ÿå›æº¯
 void Calc()
 {
 	int head = 1 , tail = 1;
@@ -45,7 +45,7 @@ void Calc()
 		{
 			int y = Edge[h].to;
 			if(Vis[y])	continue;
-			ok = true , Q[++ tail] = y , Vis[y] = 1;//´æ´¢¸÷½Úµã 
+			ok = true , Q[++ tail] = y , Vis[y] = 1;//å­˜å‚¨å„èŠ‚ç‚¹ 
 		}
 		if(!ok)	f[x][2] = inf;	else	f[x][2] = 0;
 		f[x][0] = 0 , f[x][1] = 1;
@@ -58,7 +58,7 @@ void Calc()
 		for(int h = Head[x] ; h != -1 ; h = Edge[h].next)
 		{
 			int y = Edge[h].to;
-			if(!Vis[y])	continue;//²ãÊı´óÓÚxµÄ²ÅÊÇ¶ù×Ó 
+			if(!Vis[y])	continue;//å±‚æ•°å¤§äºxçš„æ‰æ˜¯å„¿å­ 
 			f[x][0] += min(f[y][1] , f[y][2]);
 			f[x][1] += min(min(f[y][0] , f[y][1]) , f[y][2]);
 			f[x][2] += min(f[y][1],f[y][2]);
@@ -67,7 +67,7 @@ void Calc()
 		}
 		if(mina != inf && ok==false)	f[x][2] += mina;
 	}
-	//Êµ¼ÊÉÏ£¬µãÁÁ1ºÍ1ËùÁ¬µÄµã¶¼²»ĞèÒª1µÄ´ú¼Û
+	//å®é™…ä¸Šï¼Œç‚¹äº®1å’Œ1æ‰€è¿çš„ç‚¹éƒ½ä¸éœ€è¦1çš„ä»£ä»·
 	for(int h = Head[1] ; h != -1 ; h = Edge[h].next)
 	{
 		int x = Edge[h].to;
