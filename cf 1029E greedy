@@ -53,8 +53,8 @@ void Up(int x)
 	{
 		if(Heap[x].dep > Heap[x >> 1].dep)	
 		{
-			swap(Heap[x],Heap[x >> 1]);//½»»»ÕûµãĞÅÏ¢ 
-			Pos[Heap[x].id] = x , Pos[Heap[x >> 1].id] = x >> 1;//ÖØĞÂ¸³ÖµÓ³Éä 
+			swap(Heap[x],Heap[x >> 1]);//äº¤æ¢æ•´ç‚¹ä¿¡æ¯ 
+			Pos[Heap[x].id] = x , Pos[Heap[x >> 1].id] = x >> 1;//é‡æ–°èµ‹å€¼æ˜ å°„ 
 			x >>= 1; 
 		}
 		else	break;
@@ -68,8 +68,8 @@ void Down(int x)
 		if((son | 1) <= node && Heap[son | 1].dep > Heap[son].dep)	son = son | 1;
 		if(Heap[x].dep < Heap[son].dep)	
 		{
-			swap(Heap[x],Heap[son]);//½»»»ÕûµãĞÅÏ¢ 
-			Pos[Heap[x].id] = x , Pos[Heap[son].id] = son;//ÖØĞÂ¸³ÖµÓ³Éä 
+			swap(Heap[x],Heap[son]);//äº¤æ¢æ•´ç‚¹ä¿¡æ¯ 
+			Pos[Heap[x].id] = x , Pos[Heap[son].id] = son;//é‡æ–°èµ‹å€¼æ˜ å°„ 
 			x = son , son = x << 1;
 		}
 		else	break;
@@ -105,22 +105,22 @@ void Extract()
 void Calc()
 {
 	int ans = 0;
-	memset(Vis,0,sizeof(Vis));//ÊÇ·ñ±»Ñ¡Ôñ¹ı¡£ 
-	memset(Legal,0,sizeof(Legal));//ÊÇ·ñÒÑ¾­ºÏ·¨¡£ 
+	memset(Vis,0,sizeof(Vis));//æ˜¯å¦è¢«é€‰æ‹©è¿‡ã€‚ 
+	memset(Legal,0,sizeof(Legal));//æ˜¯å¦å·²ç»åˆæ³•ã€‚ 
 	while(Heap[1].dep > 2)
 	{
 		int x = Heap[1].id;
-		Extract();//È¥³ı¶Ñ¶¥¡£ 
-		if(Legal[x])	continue;//ÒÑºÏ·¨£¬Ôò²»ÓÃ²Ù×÷¡£ 
+		Extract();//å»é™¤å †é¡¶ã€‚ 
+		if(Legal[x])	continue;//å·²åˆæ³•ï¼Œåˆ™ä¸ç”¨æ“ä½œã€‚ 
 		
-		x = Fa[x];//²»ºÏ·¨£¬Ñ¡Ôñ¸¸Ç× 
-		if(Vis[x])	continue;//¸¸Ç×ÒÑ±»Ñ¡Ôñ¹ı£¬²»ÓÃÖØ¸´ 
-		ans ++ , Vis[x] = Legal[x] = 1;//¸¸Ç×ÒÑºÏ·¨ÇÒ±»Ñ¡Ôñ 
+		x = Fa[x];//ä¸åˆæ³•ï¼Œé€‰æ‹©çˆ¶äº² 
+		if(Vis[x])	continue;//çˆ¶äº²å·²è¢«é€‰æ‹©è¿‡ï¼Œä¸ç”¨é‡å¤ 
+		ans ++ , Vis[x] = Legal[x] = 1;//çˆ¶äº²å·²åˆæ³•ä¸”è¢«é€‰æ‹© 
 		
 		for(int h = Head[x] ; h != -1 ; h = Edge[h].next)
 		{
 			int y = Edge[h].to;
-			Legal[y] = 1;//Ê¹ÏàÁÚµãºÏ·¨¡£ 
+			Legal[y] = 1;//ä½¿ç›¸é‚»ç‚¹åˆæ³•ã€‚ 
 		}
 	}
 	printf("%d\n",ans);
