@@ -2,10 +2,11 @@
 #include<cstdio>
 #include<string>
 #include<cstring>
+#include<queue>
 using namespace std;
 const int MAXN = 2E5 + 5 , inf = 0x7fffffff;
 int n,node,cur = -1;
-int Q[MAXN],Head[MAXN],Fa[MAXN],Dep[MAXN],Pos[MAXN],Vis[MAXN],Legal[MAXN];
+int Head[MAXN],Fa[MAXN],Dep[MAXN],Vis[MAXN],Legal[MAXN];
 struct wyy
 {
 	int to,next;
@@ -13,7 +14,12 @@ struct wyy
 struct heap
 {
 	int id,dep;
-}Heap[MAXN];
+	bool operator < (const heap &x)const
+	{
+		return dep < x.dep;
+	}
+};
+priority_queue<heap>Heap;
 void Add(int from,int to)
 {
 	Edge[++cur].to = to;
@@ -47,42 +53,9 @@ void Read()
 		Add(x,y);
 	}
 }
-void Up(int x)
-{
-	while(x > 1)
-	{
-		if(Heap[x].dep > Heap[x >> 1].dep)	
-		{
-			swap(Heap[x],Heap[x >> 1]);//交换整点信息 
-			Pos[Heap[x].id] = x , Pos[Heap[x >> 1].id] = x >> 1;//重新赋值映射 
-			x >>= 1; 
-		}
-		else	break;
-	}
-}
-void Down(int x)
-{
-	int son = x << 1;
-	while(son <= node)
-	{
-		if((son | 1) <= node && Heap[son | 1].dep > Heap[son].dep)	son = son | 1;
-		if(Heap[x].dep < Heap[son].dep)	
-		{
-			swap(Heap[x],Heap[son]);//交换整点信息 
-			Pos[Heap[x].id] = x , Pos[Heap[son].id] = son;//重新赋值映射 
-			x = son , son = x << 1;
-		}
-		else	break;
-	}
-}
-void Insert(int x,int dep)
-{
-	Heap[++ node].id = x , Heap[node].dep = dep , Pos[Heap[node].id] = node;
-	Up(node);
-}
 void DFS(int x,int fa)
 {
-	Insert(x,Dep[x]);
+	Heap.push((heap){x,Dep[x]});
 	for(int h = Head[x] ; h != -1 ; h = Edge[h].next)
 	{
 		int y = Edge[h].to;
@@ -91,26 +64,15 @@ void DFS(int x,int fa)
 		DFS(y,x);
 	}
 }
-void Extract()
-{
-	swap(Heap[1],Heap[node --]),Pos[Heap[1].id] = 1;
-	Down(1); 
-}
-/*void Remove(int x)
-{
-	int pos = Pos[x];
-	swap(Heap[pos],Heap[node --]),Pos[Heap[pos].id] = pos;
-	Up(pos),Down(pos);
-}*/
 void Calc()
 {
 	int ans = 0;
 	memset(Vis,0,sizeof(Vis));//是否被选择过。 
 	memset(Legal,0,sizeof(Legal));//是否已经合法。 
-	while(Heap[1].dep > 2)
+	while(Heap.top().dep > 2)
 	{
-		int x = Heap[1].id;
-		Extract();//去除堆顶。 
+		int x = Heap.top().id;
+		Heap.pop();
 		if(Legal[x])	continue;//已合法，则不用操作。 
 		
 		x = Fa[x];//不合法，选择父亲 
