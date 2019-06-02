@@ -6,7 +6,7 @@
 #include<cstdlib>
 using namespace std;
 long long typedef LL;
-const int MAXN = 1E5 + 5;
+const int MAXN = 2E5 + 5;
 int cur = -1,n,Ori[MAXN],Head[MAXN];
 int Lef[MAXN],Rig[MAXN];
 LL f[MAXN][2];
@@ -55,7 +55,7 @@ void Read()
 	}
 	
 	for(int i = 1 ; i <= n ; i ++)	Lef[i] = Rig[i] = -1;
-	for(int i = 1 ; i <= n ; i ++)//���ʸ���,�õ���0 1���� 
+	for(int i = 1 ; i <= n ; i ++)//访问各组,得到其0 1距离 
 	{
 		for(int h = Head[i] ; h != -1 ; h = Group[h].next)
 		{
@@ -69,6 +69,7 @@ void Read()
 	}
 }
 int getDis(int a,int b)
+//大数据细心；干脆直接开long long。 
 {
 	int x = A[a].x , y = A[a].y;
 	int xx = A[b].x , yy = A[b].y;
@@ -80,11 +81,11 @@ void Calc()
 	for(int i = 1 ; i <= n ; i ++)	
 	{
 		if(Head[i] == -1)	continue;
-		int dis = getDis(Lef[i],Rig[i]);
-		//��0�������ȵ�1���ٵ�0) 
+		LL dis = getDis(Lef[i],Rig[i]);
+		//在0结束（先到1，再到0) 
 		if(last == 0)	
 		{
-			f[i][0] = dis + A[Rig[i]].x + A[Rig[i]].y;
+			f[i][0] = dis + A[Rig[i]].x + A[Rig[i]].y;//若结果为long long,必须至少将1个元素强制转化为long long,否则按照int计算。 
 			f[i][1] = dis + A[Lef[i]].x + A[Lef[i]].y;
 		}
 		else	
