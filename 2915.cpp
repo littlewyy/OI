@@ -1,15 +1,15 @@
 #include<iostream>
 #include<cstdio>
 #include<cstring>
-#include<cstdlib>// abs Òª¼Ó¿â cstdlib £¬ ·ñÔòCE! 
+#include<cstdlib>// abs è¦åŠ åº“ cstdlib ï¼Œ å¦åˆ™CE! 
 using namespace std;
 long long typedef LL;
 const int MAXN = 1E5 + 5;
-int n,num1,lefNum,rigNum;//×ó±ß/ÓÒ±ß 1µÄ¸öÊı 
+int n,num1,lefNum,rigNum;//å·¦è¾¹/å³è¾¹ 1çš„ä¸ªæ•° 
 int A[2][MAXN];
-int Num[2][MAXN][2];//µÚ0/1¸öÊı×é£¬Ç°i¸öÖĞ0/1µÄ¸öÊı 
-int Pos[2][MAXN][2];//µÚ0/1¸öÊı×é£¬µÚi¸ö0/1µÄÎ»ÖÃ¡£ 
-LL Sum[2][MAXN];//µÚ0/1¸öÊı×é£¬Ç°i¸öÖĞ1µÄÎ»ÖÃºÍ 
+int Num[2][MAXN][2];//ç¬¬0/1ä¸ªæ•°ç»„ï¼Œå‰iä¸ªä¸­0/1çš„ä¸ªæ•° 
+int Pos[2][MAXN][2];//ç¬¬0/1ä¸ªæ•°ç»„ï¼Œç¬¬iä¸ª0/1çš„ä½ç½®ã€‚ 
+LL Sum[2][MAXN];//ç¬¬0/1ä¸ªæ•°ç»„ï¼Œå‰iä¸ªä¸­1çš„ä½ç½®å’Œ 
 LL ans = 1ll << 60;
 int read()
 {
@@ -47,11 +47,11 @@ void Calc()
 {
 	int ok = (num1 - 1 - 2 * n) % 2;
 	double k = (double)(num1 - 1 - 2 * n) / 2.0;
-	for(int x = 0 ; x <= num1 ; x ++)//×ó±ß1µÄ¸öÊı 
+	for(int x = 0 ; x <= num1 ; x ++)//å·¦è¾¹1çš„ä¸ªæ•° 
 	{
 		int y = num1 - x;
 		
-		if(ok == 1 && ((y - x) % 2) != 0)	continue;//ÈôkÎªĞ¡ÊıÇÒy - x²»ÎªÅ¼Êı£¬ÔòÒ»¶¨²»¿ÉĞĞ¡£´æÔÚ¸ºÊı£¬ÓàÊı¿ÉÄÜÎª¸ºÊı£¡ 
+		if(ok == 1 && ((y - x) % 2) != 0)	continue;//è‹¥kä¸ºå°æ•°ä¸”y - xä¸ä¸ºå¶æ•°ï¼Œåˆ™ä¸€å®šä¸å¯è¡Œã€‚å­˜åœ¨è´Ÿæ•°ï¼Œä½™æ•°å¯èƒ½ä¸ºè´Ÿæ•°ï¼ 
 		LL tar = (double)(y - x) * k; 
 		LL a = LL(1 + x) * x / 2 , b = LL(n + n - x + 1) * x / 2;
 		LL c = LL(1 + y) * y / 2 , d = LL(n + n - y + 1) * y / 2;
@@ -60,7 +60,7 @@ void Calc()
 		{
 			int move = x - lefNum;
 			LL step = 0 ,lefSum,rigSum;
-			if(move >= 0)//´ÓÓÒÍù×óÒÆ
+			if(move >= 0)//ä»å³å¾€å·¦ç§»
 			{
 				int pos1 = Pos[0][move][0] , pos2 = Pos[1][move][1];
 				step += LL(pos1 + pos1 - Num[0][pos1][1] + 1) * Num[0][pos1][1] / 2 - Sum[0][pos1];
@@ -73,7 +73,7 @@ void Calc()
 			else	
 			{
 				move = - move;
-				//½«move¸ö´Ó×ó±ßÒÆµ½ÓÒ±ß¡£
+				//å°†moveä¸ªä»å·¦è¾¹ç§»åˆ°å³è¾¹ã€‚
 				int pos1 = Pos[0][move][1] , pos2 = Pos[1][move][0];
 				step += Sum[0][pos1] - LL(1 + move) * move / 2;
 				step += LL(pos2 + pos2 - Num[1][pos2][1] + 1) * Num[1][pos2][1] / 2 - Sum[1][pos2];
@@ -89,8 +89,6 @@ void Calc()
 }
 int main()
 {
-	freopen("2915.in","r",stdin);
-	freopen("2915.out","w",stdout);
 	Read();
 	Init();
 	Calc();
