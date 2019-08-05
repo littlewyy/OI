@@ -22,40 +22,27 @@ void Read()
 	n = strlen(S + 1);
 	for(int i = 1 ; i <= n ; i ++)	
 	{
-		if(Match(i,i + 1))	Q[++ num] = i;//Æ¥Åä×ó¶Ë 
+		if(Match(i,i + 1))	Q[++ num] = i;//åŒ¹é…å·¦ç«¯ 
 		Pre[i] = i - 1 , Next[i] = i + 1;
 	}
 }
 void Calc()
 {
-	for(;;)
+	for(int i = 1 ; i <= num ; i ++)
 	{
-		int ok = 0;
-		for(int i = 1 ; i <= num ; i ++)
+		int x = Q[i];
+		while(Match(x,Next[x]))
 		{
-			int pos = Q[i];
-			while(Match(pos,Next[pos]))
-			{
-				ok = 1 , Vis[pos] = Vis[Next[pos]] = 1;//±»É¾³ý 
-				int temp = Pre[pos] , next = Next[Next[pos]];//¸ÄÁ´±íÖ¸Õë 
-				Next[temp] = next , Pre[next] = temp;
-				pos = temp;
-			}
-		}
-		if(ok == 0)	break;//Ã»ÁË 
-		num = 0;
-		for(int i = 1 ; i <= n ; i ++)
-		{
-			if(!Vis[i] && Match(i,Next[i]))
-				Q[++ num] = i;
+			int pre = Pre[x] , next = Next[Next[x]];
+			Vis[x] = Vis[Next[x]] = 1;
+			Next[pre] = next , Pre[next] = pre;
+			x = pre;
 		}
 	}
 	int ans = 0;
 	for(int i = 0 ; i <= n ; i ++)
-	{
-		if(!Vis[i])	
+		if(Vis[i] == 0)	
 			ans = max(ans,Next[i] - i - 1);
-	}
 	printf("%d\n",ans);
 }
 int main()
@@ -66,4 +53,3 @@ int main()
 	Calc();
 	return 0;
 }
-
