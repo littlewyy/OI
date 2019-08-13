@@ -26,7 +26,7 @@ void Read()
 }
 bool RigUp(int t)
 {
-	int num = 1 , ans = 0;//ÒÑÓĞ¾ØĞÎ¸öÊı¡£
+	int num = 1 , ans = 0;//å·²æœ‰çŸ©å½¢ä¸ªæ•°ã€‚
 	Up[1] = up , Dow[1] = up - t , Rig[1] = rig , Lef[1] = rig - t;
 	for(int i = n ; i >= 1 ; i --) 
 	{
@@ -69,21 +69,21 @@ bool RigUp(int t)
 				break;
 			}
 		}
-		if(ok == 1)	continue;//Ã»±»ÁíÍâÁ½¸öÊÕÖÎ¡£ 
-		if(x >= lef && x <= lef + t)//Ã»ÈËÒªÇÒÔÚ×óÇø¼äÄÚ£¬¿¼ÂÇÊÕÖÎ¡£	
+		if(ok == 1)	continue;//æ²¡è¢«å¦å¤–ä¸¤ä¸ªæ”¶æ²»ã€‚ 
+		if(x >= lef && x <= lef + t)//æ²¡äººè¦ä¸”åœ¨å·¦åŒºé—´å†…ï¼Œè€ƒè™‘æ”¶æ²»ã€‚	
 		{
 			ans ++;
 			minh = min(minh,y);
 			maxh = max(maxh,y);
 		}
 	}
-	if(ans < n)	return false;//ÔõÑù¶¼°ü²»Íê°ü²»Íê¡£
-	if(minh != inf && maxh - minh > t)	return false;//¼ÙµÄ°üÍêÊÕÖÎ¡£ 
+	if(ans < n)	return false;//æ€æ ·éƒ½åŒ…ä¸å®ŒåŒ…ä¸å®Œã€‚
+	if(minh != inf && maxh - minh > t)	return false;//å‡çš„åŒ…å®Œæ”¶æ²»ã€‚ 
 	return true; 
 }
 bool RigDow(int t)
 {
-	int num = 1 , ans = 0;//ÒÑÓĞ¾ØĞÎ¸öÊı¡£
+	int num = 1 , ans = 0;//å·²æœ‰çŸ©å½¢ä¸ªæ•°ã€‚
 	Up[1] = dow + t, Dow[1] = dow , Rig[1] = rig , Lef[1] = rig - t;
 	for(int i = n ; i >= 1 ; i --) 
 	{
@@ -126,21 +126,21 @@ bool RigDow(int t)
 				break;
 			}
 		}
-		if(ok == 1)	continue;//Ã»±»ÁíÍâÁ½¸öÊÕÖÎ¡£ 
-		if(x >= lef && x <= lef + t)//Ã»ÈËÒªÇÒÔÚ×óÇø¼äÄÚ£¬¿¼ÂÇÊÕÖÎ¡£	
+		if(ok == 1)	continue;//æ²¡è¢«å¦å¤–ä¸¤ä¸ªæ”¶æ²»ã€‚ 
+		if(x >= lef && x <= lef + t)//æ²¡äººè¦ä¸”åœ¨å·¦åŒºé—´å†…ï¼Œè€ƒè™‘æ”¶æ²»ã€‚	
 		{
 			ans ++;
 			minh = min(minh,y);
 			maxh = max(maxh,y);
 		}
 	}
-	if(ans < n)	return false;//ÔõÑù¶¼°ü²»Íê°ü²»Íê¡£
-	if(minh != inf && maxh - minh > t)	return false;//¼ÙµÄ°üÍê¡£ 
+	if(ans < n)	return false;//æ€æ ·éƒ½åŒ…ä¸å®ŒåŒ…ä¸å®Œã€‚
+	if(minh != inf && maxh - minh > t)	return false;//å‡çš„åŒ…å®Œã€‚ 
 	return true; 
 }
 bool LefDow(int t)
 {
-	int num = 1 , ans = 0;//ÒÑÓĞ¾ØĞÎ¸öÊı¡£
+	int num = 1 , ans = 0;//å·²æœ‰çŸ©å½¢ä¸ªæ•°ã€‚
 	Up[1] = dow + t, Dow[1] = dow , Rig[1] = lef + t , Lef[1] = lef;
 	for(int i = 1 ; i <= n ; i ++)
 	{
@@ -183,21 +183,21 @@ bool LefDow(int t)
 				break;
 			}
 		}
-		if(ok == 1)	continue;//Ã»±»ÁíÍâÁ½¸öÊÕÖÎ¡£ 
-		if(x >= rig - t && x <= rig)//Ã»ÈËÒªÇÒÔÚ×óÇø¼äÄÚ£¬¿¼ÂÇÊÕÖÎ¡£	
+		if(ok == 1)	continue;//æ²¡è¢«å¦å¤–ä¸¤ä¸ªæ”¶æ²»ã€‚ 
+		if(x >= rig - t && x <= rig)//æ²¡äººè¦ä¸”åœ¨å·¦åŒºé—´å†…ï¼Œè€ƒè™‘æ”¶æ²»ã€‚	
 		{
 			ans ++;
 			minh = min(minh,y);
 			maxh = max(maxh,y);
 		}
 	}
-	if(ans < n)	return false;//ÔõÑù¶¼°ü²»Íê°ü²»Íê¡£
-	if(minh != inf && maxh - minh > t)	return false;//¼ÙµÄ°üÍêÊÕÖÎ¡£ 
+	if(ans < n)	return false;//æ€æ ·éƒ½åŒ…ä¸å®ŒåŒ…ä¸å®Œã€‚
+	if(minh != inf && maxh - minh > t)	return false;//å‡çš„åŒ…å®Œæ”¶æ²»ã€‚ 
 	return true; 
 }
 bool LefUp(int t)
 {
-	int num = 1 , ans = 0;//ÒÑÓĞ¾ØĞÎ¸öÊı¡£
+	int num = 1 , ans = 0;//å·²æœ‰çŸ©å½¢ä¸ªæ•°ã€‚
 	Up[1] = up , Dow[1] = up - t , Rig[1] = lef + t , Lef[1] = lef;
 	for(int i = n ; i >= 1 ; i --) 
 	{
@@ -240,16 +240,16 @@ bool LefUp(int t)
 				break;
 			}
 		}
-		if(ok == 1)	continue;//Ã»±»ÁíÍâÁ½¸öÊÕÖÎ¡£ 
-		if(x >= rig - t && x <= rig)//Ã»ÈËÒªÇÒÔÚ×óÇø¼äÄÚ£¬¿¼ÂÇÊÕÖÎ¡£	
+		if(ok == 1)	continue;//æ²¡è¢«å¦å¤–ä¸¤ä¸ªæ”¶æ²»ã€‚ 
+		if(x >= rig - t && x <= rig)//æ²¡äººè¦ä¸”åœ¨å·¦åŒºé—´å†…ï¼Œè€ƒè™‘æ”¶æ²»ã€‚	
 		{
 			ans ++;
 			minh = min(minh,y);
 			maxh = max(maxh,y);
 		}
 	}
-	if(ans < n)	return false;//ÔõÑù¶¼°ü²»Íê°ü²»Íê¡£
-	if(minh != inf && maxh - minh > t)	return false;//¼ÙµÄ°üÍêÊÕÖÎ¡£ 
+	if(ans < n)	return false;//æ€æ ·éƒ½åŒ…ä¸å®ŒåŒ…ä¸å®Œã€‚
+	if(minh != inf && maxh - minh > t)	return false;//å‡çš„åŒ…å®Œæ”¶æ²»ã€‚ 
 	return true; 
 }
 bool Check(int t)
@@ -263,7 +263,7 @@ bool Check(int t)
 void Calc()
 {
 	int lo = 0 , hi = 1e9;
-	//×ó¿ªÓÒ±Õ 
+	//å·¦å¼€å³é—­ 
 	while(lo + 1 < hi)
 	{
 		int mid = (lo + hi) >> 1;
