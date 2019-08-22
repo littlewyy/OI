@@ -44,16 +44,16 @@ void Read()
 		int tar = read();
 		Cnt[tar] ++;
 	}
-	for(int i = 0 ; i <= n ; i ++)	t[i] = i;//Ö¸ÏòµÄsetÖ¸Õë¡£ 
+	for(int i = 0 ; i <= n ; i ++)	t[i] = i;//æŒ‡å‘çš„setæŒ‡é’ˆã€‚ 
 }
 void DFS(int x)
 {
-	S[t[x]].insert(-x);//±ä³É¸ºÊı£¬¼´¿É´Ó´óµ½Ğ¡ÅÅÁĞ¡£ 
+	S[t[x]].insert(-x);//å˜æˆè´Ÿæ•°ï¼Œå³å¯ä»å¤§åˆ°å°æ’åˆ—ã€‚ 
 	for(int h = Head[x] ; h != -1 ; h = Edge[h].next)
 	{
 		int y = Edge[h].to;
 		DFS(y);
-		if(S[t[y]].size() < S[t[x]].size())//×ÓÊ÷ºÏ²¢ÉÏÀ´¡£ 
+		if(S[t[y]].size() < S[t[x]].size())//å­æ ‘åˆå¹¶ä¸Šæ¥ã€‚ 
 		{
 			set<int>::iterator it;
 			for(it = S[t[y]].begin() ; it != S[t[y]].end() ; it ++)	S[t[x]].insert(*it);
@@ -75,7 +75,7 @@ void DFS(int x)
 		ans += (*it);	
 		num ++;
 		//S[t[x]].erase(*it);	
-		//²»ÄÜ±ß×ö±ßÉ¾.	·ñÔò»á³ö´óÎÊÌâ¡£ 
+		//ä¸èƒ½è¾¹åšè¾¹åˆ .	å¦åˆ™ä¼šå‡ºå¤§é—®é¢˜ã€‚ 
 	}
 	for(int i = 1 ; i <= num ; i ++)
 		S[t[x]].erase(S[t[x]].begin());
