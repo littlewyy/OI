@@ -135,7 +135,7 @@ void Query()
 		for(int i = 1 ; i <= n ; i ++)
 		{
 			int x = Node[i].id;LL f = Node[i].f;
-			if(i > 1)//½«i - 1Çå³ý¡£ 
+			if(i > 1)//Â½Â«i - 1Ã‡Ã¥Â³Ã½Â¡Â£ 
 			{
 				int lx = Node[i - 1].id;
 				int lroot = findA(lx);
