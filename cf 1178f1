@@ -26,7 +26,7 @@ void Read()
 		for(int r = l ; r <= n ; r ++)
 		{
 			int mina = n + 1;
-			//Mid[l,r]:[l,r]ÖÐ×îÐ¡µÄÔªËØËùÔÚµÄÎ»ÖÃ¡£ 
+			//Mid[l,r]:[l,r]ä¸­æœ€å°çš„å…ƒç´ æ‰€åœ¨çš„ä½ç½®ã€‚ 
 			for(int k = l ; k <= r ; k ++)
 				if(A[k] < mina)	
 					Mid[l][r] = k , mina = A[k];
@@ -48,7 +48,7 @@ void Dp()
 		for(int i = 1 ; i + len - 1 <= n ; i ++)
 		{
 			int j = i + len - 1 , mid = Mid[i][j];
-			for(int l = i ; l <= mid ; l ++)//Ã¶¾ÙmidµÄ¸²¸ÇÇøÓò 
+			for(int l = i ; l <= mid ; l ++)//æžšä¸¾midçš„è¦†ç›–åŒºåŸŸ 
 				f[i][j] = (f[i][j] + f[i][l - 1] * f[l][mid - 1] % mod * g[mid + 1][j] % mod) % mod;
 			for(int k = i - 1 ; k <= j ; k ++)	g[i][j] = (g[i][j] + f[i][k] * f[k + 1][j] % mod) % mod; 
 		}
