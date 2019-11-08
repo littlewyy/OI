@@ -5,7 +5,7 @@
 using namespace std;
 const int MAXN = 1E4+5;
 int n,ans;
-priority_queue<int>Q;//小根堆，用负数存 
+priority_queue<int>Q;//脨隆赂霉露脩拢卢脫脙赂潞脢媒麓忙 
 struct wyy
 {
 	int p,d;
